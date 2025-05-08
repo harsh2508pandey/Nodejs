@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: myappdb
+    networks:
+      - my-network
+
+  web-app:
+    build: .
+    container_name: web-app-container
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+    ports:
+      - "7080:7080"
+
+networks:
+  my-network:
+    driver: bridge
